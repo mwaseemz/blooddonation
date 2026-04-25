@@ -12,6 +12,45 @@ const EMAILJS_CONFIG = {
     emailjs.init(EMAILJS_CONFIG.publicKey);
 })();
 
+// Announcement Bar functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const announcementBar = document.getElementById('announcementBar');
+    const closeButton = document.getElementById('closeAnnouncement');
+    const navbar = document.querySelector('.navbar');
+    const hero = document.querySelector('.hero');
+
+    // Check if announcement was previously closed
+    const announcementClosed = localStorage.getItem('announcementClosed');
+
+    if (announcementClosed === 'true') {
+        hideAnnouncement(true);
+    }
+
+    // Close button functionality
+    if (closeButton) {
+        closeButton.addEventListener('click', function() {
+            hideAnnouncement(false);
+            localStorage.setItem('announcementClosed', 'true');
+        });
+    }
+
+    function hideAnnouncement(immediate) {
+        if (immediate) {
+            announcementBar.style.display = 'none';
+        } else {
+            announcementBar.classList.add('hidden');
+            setTimeout(() => {
+                announcementBar.style.display = 'none';
+            }, 300);
+        }
+
+        navbar.classList.add('announcement-hidden');
+        if (hero) {
+            hero.classList.add('announcement-hidden');
+        }
+    }
+});
+
 // Smooth scroll for navigation links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
